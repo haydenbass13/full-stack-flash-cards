@@ -8,10 +8,8 @@ const { dropPostgres, createPostgres, seedPostgres } = require("./utils");
     // await dropPostgres();
     // await createPostgres();
     await pg.sync({ force: false, logging: false });
-    let date = new Date();
-    let start = date.getMonth();
-    for (let i = start; i <= 11; i++) {
-      await seedPostgres(i);
+    for (let i = 0; i <= 5; i++) {
+      await seedPostgres();
     }
     process.exit();
     console.timeEnd("db seeding");

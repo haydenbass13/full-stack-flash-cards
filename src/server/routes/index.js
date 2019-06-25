@@ -4,19 +4,17 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import hbs from "handlebars";
 import serialize from "serialize-javascript";
-import appointmentsByMonth from "../models/index";
-const { Appointments } = require("../../../database/index");
+import selectTier from "../models/index";
+const { Easy, Intermediate, Hard } = require("../../../database/index");
 const router = express.Router();
 
-router.get("/:id", async (req, res) => {
-  await appointmentsByMonth(Number(req.params.id), response => {
+router.get("/:tier", async (req, res) => {
+  await selectTier(req.params.tier, response => {
     res.send(response[0]);
   });
 });
 
-router.get("/", async (req, res) => {
-  let month = new Date().getMonth();
-  await appointmentsByMonth(month, response => {
+router.get("/", (req, res) => {
     const theHtml = `
   <head>
   <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
@@ -25,7 +23,6 @@ router.get("/", async (req, res) => {
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
   </head>
   <body>
-  <script>window.__SCHEDULE__ = ${serialize(response[0])}</script>
   <div id="root"></div>
   <script src="/app.js" charset="utf-8"></script>
   
@@ -38,7 +35,7 @@ router.get("/", async (req, res) => {
     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     res.status(200).send(htmlToSend);
   });
-});
+
 router.post("/", (req, res) => {
   res.send("router post working");
 });
