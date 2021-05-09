@@ -33,7 +33,7 @@
     "docker": "^1.0.0",
     "fs": "0.0.1-security",
     "get-user-locale": "^1.1.1",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.7.7",
     "jest": "^24.8.0",
     "loadtest": "^3.0.7",
     "merge-class-names": "^1.2.0",
